@@ -3,9 +3,10 @@ const God = require('../models/gods.js');
 
 // Create a new god
 function createGod(req, res) {
-  const body = req.boody; //get the body of teh request (POST)
+  const body = req.body; //get the body of teh request (POST)
   God.create(body)
     .then(god => {
+      console.log(god);
       res.status(201).json(god);
     });
 
@@ -36,7 +37,7 @@ async function updateGod(req, res) {
   const id = req.params.id;
   const god = req.body;
   const update = await God.update(god, { where: { id } });
-  const godUpdated = await God.findByPk(update[0]);
+  const godUpdated = await God.findByPk(id);
   res.status(202).json(godUpdated);
 }
 
