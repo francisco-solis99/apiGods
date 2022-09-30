@@ -32,8 +32,17 @@ async function login(req, res) {
   if (!user) return res.status(404).json({ error: 'User Not Found' });
 
   // We need to return the JWT token when he or she is welcomed
-  if (User.validatePassword(body['password'], user.passwordSalt, user.passwordHash)) return res.status(200).json({ message: "Welcome" });
-  return res.status(400).json({ message: "Bad credentials" });
+  if (User.validatePassword(body['password'], user.passwordSalt, user.passwordHash)) {
+
+    return res.status(200).json({
+      user: user.username,
+      email: user.email,
+      token: User.generateJWT(user)
+    });
+  }
+  return res.status(400).json({
+    err: 'Something wrong in teh crediantials'
+  });
 }
 
 module.exports = { signUp, login };

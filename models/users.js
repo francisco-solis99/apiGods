@@ -2,6 +2,10 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const crypto = require('node:crypto');
+const jwt = require('jsonwebtoken'); //library for get a jwt
+const secret = require('../config/secret.js');
+
+
 
 const User = sequelize.define('User', {
   username: {
@@ -64,6 +68,19 @@ User.validatePassword = (password, userSalt, userHash) => {
 // User.encryptCard = (cardText) => {
 //   // const cardEncrypted = crypto.pbkdf2Sync(plat, )
 // }
+
+// Method to generate the jwt or the identification in the API
+User.generateJWT = (user) => {
+  const today = new Date();
+  const expirationDate = new Date(today); //when it expires in 60 days
+  expirationDate.setDate(today.getDate() + 60);
+
+  // Sign the jwt
+  return jwt.sign({
+    user: user.username,
+    exp: parseInt(expirationDate.getTime() / 1000) //segundos
+  }, secret);
+}
 
 
 module.exports = User;

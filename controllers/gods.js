@@ -26,6 +26,7 @@ async function getGod(req, res) {
 
 // Get all the gods (here is the pagination if we want it)
 async function getGods(req, res) {
+  // console.log(req.auth);
   const id = req.params.id;
   const allGods = await God.findAll(id);
   res.status(200).json(allGods);
