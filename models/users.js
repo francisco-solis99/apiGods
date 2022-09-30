@@ -33,6 +33,7 @@ const User = sequelize.define('User', {
   passwordHash: {
     type: DataTypes.CHAR(64),
     // allowNull: false,
+    // we can use hooks as function to  make allowNull as false
   },
   passwordSalt: {
     type: DataTypes.CHAR(64),
@@ -58,6 +59,11 @@ User.validatePassword = (password, userSalt, userHash) => {
   const hash = crypto.pbkdf2Sync(password, userSalt, 10000, 512, 'sha512').toString('hex');
   return userHash === hash;
 }
+
+// For teh credit card
+// User.encryptCard = (cardText) => {
+//   // const cardEncrypted = crypto.pbkdf2Sync(plat, )
+// }
 
 
 module.exports = User;

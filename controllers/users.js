@@ -10,6 +10,7 @@ async function signUp(req, res) {
     user.passwordSalt = salt;
     user.passwordHash = hash;
     // maybe more validations to be sure there is a strong password
+    // save the changes
     await user.save();
     res.status(201).json(user);
   } catch (err) {
@@ -24,7 +25,7 @@ async function signUp(req, res) {
   }
 }
 
-// Function for validate the password simulatinga  login
+// Function for validate the password simulating a login
 async function login(req, res) {
   const body = req.body;
   const user = await User.findOne({ where: { username: body['username'] } });
