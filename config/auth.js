@@ -21,14 +21,22 @@ const auth = {
     secret: secret,
     algorithms: ['HS256'],
     userProperty: 'user',
+    cardProperty: 'card',
     credentialsRequired: false
   }),
 
   // middleware for admin
   isAdmin: (req, res, next) => {
-    console.log(req.auth.user);
     if (!req.auth) return res.sendStatus(401); // user not found
-    if (req.auth.user !== 'admin') return res.sendStatus(403); //just the admin (prohibido)
+    if (req.auth.user !== 'admin' && req.auth.user !== 'admin3') return res.sendStatus(403); //just the admin (prohibido)
+    next();
+  },
+
+  // middleware premium
+  isPremium: (req, res, next) => {
+    // console.log(req.auth);
+    if (!req.auth) return res.sendStatus(401);
+    if (!req.auth.card) return res.sendStatus(403); //just the premiun with card (prohibido)
     next();
   }
 };

@@ -45,7 +45,7 @@ const User = sequelize.define('User', {
   },
   card: {
     type: DataTypes.CHAR(64),
-    allowNull: false,
+    // allowNull: false,
     validate: {
       isCreditCard: true,
     }
@@ -78,6 +78,7 @@ User.generateJWT = (user) => {
   // Sign the jwt
   return jwt.sign({
     user: user.username,
+    card: user.card,
     exp: parseInt(expirationDate.getTime() / 1000) //segundos
   }, secret);
 }

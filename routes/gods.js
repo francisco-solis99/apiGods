@@ -11,7 +11,7 @@ const auth = require('../config/auth.js')
 // Router routes definition
 router.get('/', getGods); //add the authorization for the jwt token
 router.get('/:id', getGod);
-router.post('/', auth.required, createGod);
+router.post('/', auth.isPremium, createGod);
 router.patch('/:id', auth.required, updateGod);
 router.delete('/:id', auth.isAdmin, deleteGod);
 
