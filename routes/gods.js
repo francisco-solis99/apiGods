@@ -15,8 +15,8 @@ const passport = require('../config/passport.js');
 // Router routes definition
 router.get('/', getGods); //add the authorization for the jwt token
 router.get('/:id', getGod);
-router.post('/', passport.authenticate('local', { session: false }), createGod);
-router.patch('/:id', auth.required, updateGod);
+router.post('/', [passport.authenticate('bearer', { session: false, assignProperty: 'user' }), auth.required], createGod);
+router.patch('/:id', [auth.required, auth.isAdmin], updateGod);
 router.delete('/:id', auth.isAdmin, deleteGod);
 
 module.exports = router;

