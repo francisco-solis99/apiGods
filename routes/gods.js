@@ -7,11 +7,15 @@ const {
   deleteGod
 } = require('../controllers/gods.js')
 const auth = require('../config/auth.js')
+// Passport
+const passport = require('../config/passport.js');
+
+
 
 // Router routes definition
 router.get('/', getGods); //add the authorization for the jwt token
 router.get('/:id', getGod);
-router.post('/', auth.isPremium, createGod);
+router.post('/', passport.authenticate('local', { session: false }), createGod);
 router.patch('/:id', auth.required, updateGod);
 router.delete('/:id', auth.isAdmin, deleteGod);
 

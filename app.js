@@ -1,4 +1,6 @@
-require('dotenv').config()
+require('dotenv').config();
+require('./config/passport');
+
 const express = require('express');
 const sequelize = require('./config/db.js'); //get sequelize
 const routes = require('./routes/index.js');
